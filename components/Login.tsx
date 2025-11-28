@@ -64,8 +64,9 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                     <p className="text-sm font-medium text-zinc-900 dark:text-white">
                       {user.name}
                     </p>
-                    <p className="text-xs text-zinc-500 dark:text-zinc-500 truncate">
-                      {user.role} &bull; {user.department || 'General'}
+                    <p className="text-xs text-zinc-500 dark:text-zinc-500 truncate flex flex-col">
+                      <span>{user.email}</span>
+                      <span className="opacity-75">{user.role} &bull; {user.department || 'General'}</span>
                     </p>
                   </div>
                   {selectedUser?.id === user.id && (

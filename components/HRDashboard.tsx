@@ -6,7 +6,7 @@ import { Card } from './Card';
 import { Button } from './Button';
 import { Modal } from './Modal';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, PieChart, Pie, Cell } from 'recharts';
-import { Users, Clock, Sparkles, TrendingUp, FileSpreadsheet, Trash2, LayoutDashboard, UserPlus } from 'lucide-react';
+import { Users, Clock, Sparkles, TrendingUp, FileSpreadsheet, Trash2, LayoutDashboard, UserPlus, Mail } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { format, parseISO, startOfDay, endOfDay, eachDayOfInterval, isSameDay } from 'date-fns';
 import * as XLSX from 'xlsx';
@@ -31,6 +31,7 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ theme = 'dark' }) => {
   // New User Form State
   const [newUser, setNewUser] = useState({
     name: '',
+    email: '',
     role: UserRole.EMPLOYEE,
     department: ''
   });
@@ -174,6 +175,7 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ theme = 'dark' }) => {
     const user: User = {
       id: crypto.randomUUID(),
       name: newUser.name,
+      email: newUser.email,
       role: newUser.role,
       department: newUser.department,
       avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(newUser.name)}&background=random`
@@ -181,7 +183,7 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ theme = 'dark' }) => {
     StorageService.addUser(user);
     setUsers(StorageService.getUsers());
     setIsAddUserModalOpen(false);
-    setNewUser({ name: '', role: UserRole.EMPLOYEE, department: '' });
+    setNewUser({ name: '', email: '', role: UserRole.EMPLOYEE, department: '' });
   };
 
   const handleRemoveUser = (userId: string) => {
@@ -454,6 +456,7 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ theme = 'dark' }) => {
                 <thead className="text-xs text-zinc-500 uppercase bg-zinc-50 dark:bg-zinc-800/20 border-b border-zinc-200 dark:border-zinc-800">
                   <tr>
                     <th className="px-4 py-3 font-medium">Name</th>
+                    <th className="px-4 py-3 font-medium">Email</th>
                     <th className="px-4 py-3 font-medium">Role</th>
                     <th className="px-4 py-3 font-medium">Department</th>
                     <th className="px-4 py-3 font-medium text-right">Actions</th>
@@ -468,6 +471,7 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ theme = 'dark' }) => {
                           <span className="font-medium text-zinc-900 dark:text-white">{user.name}</span>
                         </div>
                       </td>
+                      <td className="px-4 py-3 text-zinc-500 dark:text-zinc-400">{user.email}</td>
                       <td className="px-4 py-3">
                         <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
                           user.role === 'HR' 
@@ -510,7 +514,23 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ theme = 'dark' }) => {
               value={newUser.name}
               onChange={e => setNewUser({...newUser, name: e.target.value})}
               className="w-full bg-zinc-50 dark:bg-zinc-950/50 border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 rounded-lg p-3 outline-none focus:ring-2 focus:ring-zinc-900/10 dark:focus:ring-white/10"
+              placeholder="e.g. John Doe"
             />
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-2">Email Address</label>
+            <div className="relative">
+              <input
+                type="email"
+                required
+                value={newUser.email}
+                onChange={e => setNewUser({...newUser, email: e.target.value})}
+                className="w-full bg-zinc-50 dark:bg-zinc-950/50 border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 rounded-lg p-3 pl-10 outline-none focus:ring-2 focus:ring-zinc-900/10 dark:focus:ring-white/10"
+                placeholder="e.g. john@company.com"
+              />
+              <Mail className="absolute left-3 top-3.5 text-zinc-400 dark:text-zinc-500 pointer-events-none" size={16} />
+            </div>
           </div>
           
           <div>
@@ -521,6 +541,7 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ theme = 'dark' }) => {
               value={newUser.department}
               onChange={e => setNewUser({...newUser, department: e.target.value})}
               className="w-full bg-zinc-50 dark:bg-zinc-950/50 border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 rounded-lg p-3 outline-none focus:ring-2 focus:ring-zinc-900/10 dark:focus:ring-white/10"
+              placeholder="e.g. Marketing"
             />
           </div>
 

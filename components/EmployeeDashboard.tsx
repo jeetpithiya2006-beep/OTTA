@@ -158,7 +158,7 @@ export const EmployeeDashboard: React.FC<EmployeeDashboardProps> = ({ user }) =>
         <h1 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white tracking-tight">
           Welcome, {user.name}
         </h1>
-        <p className="text-zinc-500 dark:text-zinc-400 font-medium">{user.department}</p>
+        <p className="text-zinc-500 dark:text-zinc-400 font-medium">{user.department} &bull; {user.email}</p>
       </div>
 
       <div className="bg-white dark:bg-zinc-900/50 backdrop-blur-xl border border-zinc-200 dark:border-zinc-800 rounded-2xl p-8 md:p-12 shadow-xl flex flex-col items-center justify-center space-y-8 relative overflow-hidden transition-all duration-300">

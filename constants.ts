@@ -1,9 +1,13 @@
 import { User, UserRole, TimeLog } from './types';
 
+// REPLACE THIS WITH YOUR DEPLOYED GOOGLE APPS SCRIPT WEB APP URL
+export const GOOGLE_SCRIPT_URL = ''; 
+
 export const MOCK_USERS: User[] = [
   {
     id: 'u1',
     name: 'Alex Rivera',
+    email: 'alex.rivera@otta.com',
     role: UserRole.EMPLOYEE,
     department: 'Engineering',
     avatar: 'https://picsum.photos/100/100'
@@ -11,6 +15,7 @@ export const MOCK_USERS: User[] = [
   {
     id: 'u2',
     name: 'Sarah Chen',
+    email: 'sarah.chen@otta.com',
     role: UserRole.HR,
     department: 'Human Resources',
     avatar: 'https://picsum.photos/101/101'
@@ -18,6 +23,7 @@ export const MOCK_USERS: User[] = [
   {
     id: 'u3',
     name: 'Jordan Smith',
+    email: 'jordan.smith@otta.com',
     role: UserRole.EMPLOYEE,
     department: 'Design',
     avatar: 'https://picsum.photos/102/102'

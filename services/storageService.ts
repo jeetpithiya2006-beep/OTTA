@@ -1,5 +1,6 @@
 import { TimeLog, User, Theme } from '../types';
 import { INITIAL_LOGS, MOCK_USERS } from '../constants';
+import { GoogleSheetsService } from './googleSheetsService';
 
 const KEYS = {
   USER: 'otta_user',
@@ -40,12 +41,18 @@ export const StorageService = {
     const users = StorageService.getUsers();
     users.push(user);
     StorageService.saveUsers(users);
+    
+    // Sync to Google Sheets
+    GoogleSheetsService.syncUser(user);
   },
 
   removeUser: (userId: string) => {
     const users = StorageService.getUsers();
     const filtered = users.filter(u => u.id !== userId);
     StorageService.saveUsers(filtered);
+    // Note: Deletion in Google Sheets via simple API is complex, 
+    // usually we just mark active/inactive in a real DB. 
+    // For now we only sync additions.
   },
 
   // Logs Management
@@ -70,6 +77,17 @@ export const StorageService = {
     }
     
     localStorage.setItem(KEYS.LOGS, JSON.stringify(logs));
+
+    // Dispatch a custom event to notify the app (same tab)
+    const event = new CustomEvent('otta-log-update', { detail: log });
+    window.dispatchEvent(event);
+
+    // Sync to Google Sheets
+    // We need the user's email. In a real app we'd join tables, 
+    // here we fetch the user list to find it.
+    const users = StorageService.getUsers();
+    const user = users.find(u => u.id === log.userId);
+    GoogleSheetsService.syncLog(log, user?.email);
   },
   
   // Helper to find active log for a user

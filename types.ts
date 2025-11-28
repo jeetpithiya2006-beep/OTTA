@@ -6,6 +6,7 @@ export enum UserRole {
 export interface User {
   id: string;
   name: string;
+  email: string; // Added email
   role: UserRole;
   avatar?: string;
   department?: string;
@@ -17,12 +18,12 @@ export interface TimeLog {
   id: string;
   userId: string;
   userName: string;
-  type: LogType; // Added log type
-  checkIn: string; // ISO string (start of day for leaves)
+  type: LogType;
+  checkIn: string; // ISO string
   checkOut?: string; // ISO string
   durationMinutes?: number;
   status: 'active' | 'completed';
-  date: string; // YYYY-MM-DD for grouping
+  date: string; // YYYY-MM-DD
   remarks?: string;
 }
 
@@ -34,3 +35,5 @@ export interface AnalyticsSummary {
 }
 
 export type Theme = 'light' | 'dark';
+
+export type ViewMode = 'dashboard' | 'activity';
